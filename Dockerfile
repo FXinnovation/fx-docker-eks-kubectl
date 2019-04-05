@@ -1,7 +1,6 @@
 FROM alpine:3.9
 
-ENV CURL_VERSION=7.64.0-r1 \
-    PYTHON3_VERSION=3.6.8-r1 \
+ENV PYTHON3_VERSION=3.6.8-r1 \
     KUBECTL_VERSION=1.11.9 \
     AWSCLI_VERSION=1.16.139 \
     AWS_IAM_AUTHENTICATOR_VERSION=1.12.7/2019-03-27    
@@ -15,6 +14,7 @@ ADD ./resources /resources
 RUN /resources/build && rm -rf /resources
 
 VOLUME /data
+VOLUME /root/.kube/config 
 
 WORKDIR /data
 
@@ -24,7 +24,6 @@ LABEL "maintainer"="cloudsquad@fxinnovation.com" \
       "org.label-schema.name"="eks-kubectl" \
       "org.label-schema.base-image.name"="alpine" \
       "org.label-schema.base-image.version"="3.9" \
-      "org.label-schema.applications.curl.version"="$CURL_VERSION" \
       "org.label-schema.applications.python3.version"="$PYTHON3_VERSION" \
       "org.label-schema.applications.awscli.version"="$AWSCLI_VERSION" \
       "org.label-schema.applications.kubectl.version"="$KUBECTL_VERSION" \
