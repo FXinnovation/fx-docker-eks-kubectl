@@ -21,3 +21,11 @@ curl -LO https://amazon-eks.s3-us-west-2.amazonaws.com/${AWS_IAM_AUTHENTICATOR_V
 install -m +x ./aws-iam-authenticator /usr/local/bin/
 
 apk del --no-cache build-dependencies 
+
+adduser -D kubectl
+
+# CIS Benchmarking
+touch /etc/login.defs
+chmod 0444 /etc/login.defs
+
+chmod 0600 /etc/shadow

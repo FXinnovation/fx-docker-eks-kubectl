@@ -13,8 +13,10 @@ ADD ./resources /resources
 
 RUN /resources/build && rm -rf /resources
 
+USER kubectl
+
 VOLUME /data
-VOLUME /root/.kube/config 
+VOLUME /home/kubectl/.kube/config 
 
 WORKDIR /data
 
