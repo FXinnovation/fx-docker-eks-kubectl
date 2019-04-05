@@ -2,10 +2,11 @@
 set -e -x
 
 # Installing needed Packages
-apk add --update --no-cache \
-  curl=$CURL_VERSION \
-  python2=$PYTHON2_VERSION \
-  py2-pip=$PY2PIP_VERSION
+apk add --update --no-cache --virtual build-dependencies\
+  curl=$CURL_VERSION 
+
+apk add --no-cache \
+  python3=$PYTHON3_VERSION 
 
 # Installing kubectl
 cd /resources
@@ -20,3 +21,5 @@ pip install awscli==${AWSCLI_VERSION}
 curl -LO https://amazon-eks.s3-us-west-2.amazonaws.com/${AWS_IAM_AUTHENTICATOR_VERSION}/bin/linux/amd64/aws-iam-authenticator 
 chmod +x ./aws-iam-authenticator
 mv ./aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
+
+apk del --no-cache build-dependencies 
