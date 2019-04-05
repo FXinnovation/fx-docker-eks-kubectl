@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e -x
+
+# Installing needed Packages
+apk add --update --no-cache --virtual build-dependencies\
+  curl
+
+apk add --no-cache \
+  python3=$PYTHON3_VERSION 
+
+# Installing kubectl
+cd /resources
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+install -m +x ./kubectl /usr/local/bin/
+
+# Installing AWS CLI
+pip3 install awscli==${AWSCLI_VERSION}
+
+# Installing aws-iam-authenticator
+curl -LO https://amazon-eks.s3-us-west-2.amazonaws.com/${AWS_IAM_AUTHENTICATOR_VERSION}/bin/linux/amd64/aws-iam-authenticator 
+install -m +x ./aws-iam-authenticator /usr/local/bin/
+
+apk del --no-cache build-dependencies 
+
+adduser -D kubectl
+
+# CIS Benchmarking
+touch /etc/login.defs
+chmod 0444 /etc/login.defs
+
+chmod 0600 /etc/shadow
